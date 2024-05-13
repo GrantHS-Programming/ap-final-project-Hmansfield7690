@@ -1,9 +1,12 @@
 import java.util.ArrayList;
 
 public class Microwave extends StationaryObjects {
-    public Microwave(boolean isOpen, boolean isEmpty){
-        isOpen = false;
-        isEmpty = true;
+    private boolean isOpen;
+    private boolean isEmpty;
+    public Microwave(int room,boolean isOpen, boolean isEmpty){
+        super(room);
+        this.isOpen = isOpen;
+        this.isEmpty = isEmpty;
     }
 
 }
