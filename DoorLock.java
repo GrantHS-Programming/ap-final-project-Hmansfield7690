@@ -4,5 +4,13 @@ public class DoorLock extends StationaryObjects {
         super(room);
         this.locked = locked;
     }
+    public boolean getLocked(){
+        if (locked){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
 }
