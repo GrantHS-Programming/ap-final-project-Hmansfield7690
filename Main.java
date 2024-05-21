@@ -7,10 +7,10 @@ public class Main {
     public static int roomId = 1;
 
     //Rooms
-    Room livingRoom = new Room(false, 1);
-    Room kitchen = new Room(false,2);
-    Room hallway = new Room(false,3);
-    LockedRoom bedRoom = new LockedRoom(false,true,4);
+    static Room livingRoom = new Room(false, 1,0);
+    static Room kitchen = new Room(false,2,0);
+    static Room hallway = new Room(false,3,0);
+    static LockedRoom bedRoom = new LockedRoom(false,true,4,0);
 
     //Stationary Objects
     static DoorLock doorLock = new DoorLock(3,true);
@@ -43,10 +43,10 @@ public class Main {
 
 
     }
-
-
     public static void livingRoomAction(){
-        System.out.println("There is a TV in the corner, but it is not turned on and the the remote is nowhere to be found. ");
+        if (livingRoom.getTimesEntered() < 1) {
+            System.out.println("There is a TV in the corner, but it is not turned on and the the remote is nowhere to be found. ");
+        }
         System.out.println("a) Move to the kitchen");
         System.out.println("b) Move to the halway");
         System.out.println("c) Use the TV");
@@ -59,12 +59,20 @@ public class Main {
         else if (action.equals("b")){
             roomId = 3;
         }
+        else if (action.equals("c")){
+            if (!remote.getLocation()){
+                System.out.println("You do not have the remote");
+            }
+        }
         else if (action.equals("q")){
             playing = false;
         }
+        livingRoom.enterCount();
     }
     public static void kitchenAction(){
-        System.out.println("it appears to have been looted, all that remains is a microwave");
+        if (kitchen.getTimesEntered() < 1) {
+            System.out.println("it appears to have been looted, all that remains is a microwave");
+        }
         System.out.println("a) Move to the living room");
         System.out.println("b) Use the microwave");
         System.out.println("q) Quit");
@@ -73,18 +81,26 @@ public class Main {
         if (action.equals("a")){
             roomId = 1;
         }
+        else if (action.equals("b")){
+            useMicrowave();
+        }
         else if (action.equals("q")){
             playing = false;
         }
+        kitchen.enterCount();
 
     }
     public static void hallwayAction(){
-        System.out.println("It is a rather boring passageway connecting the living room to the bedroom, a flickering light bulb hangs from the ceiling");
-        System.out.println("The door to the bedroom appears to have a padlock on it. As you walk towards the door, you nearly trip on a ball of reddish wax, about ");
-        System.out.println("the size of an apple");
+        if (hallway.getTimesEntered()< 1) {
+            System.out.println("It is a rather boring passageway connecting the living room to the bedroom, a flickering light bulb hangs from the ceiling");
+            System.out.println("The door to the bedroom appears to have a padlock on it. As you walk towards the door, you nearly trip on a ball of reddish wax, about ");
+            System.out.println("the size of an apple");
+        }
         System.out.println("a) Move to the living room");
         System.out.println("b) Move to the bedroom");
-        System.out.println("c) Examine the ball of wax");
+        if (!waxBall.getLocation()) {
+            System.out.println("c) Examine the ball of wax");
+        }
         System.out.println("q) Quit");
         System.out.print("input: ");
         String action = inputOpperator.nextLine();
@@ -100,16 +116,16 @@ public class Main {
                 roomId = 4;
             }
         }
-        else if (action.equals("c")){
+        else if (action.equals("c") && !waxBall.getLocation()){
             holdWax();
         }
         else if (action.equals("q")){
             playing = false;
         }
+        hallway.enterCount();
     }
-
-
     public static void bedroomAction(){
+        if (bedRoom.getTimesEntered()<1)
         System.out.println("there is a tv remote and a combination safe sitting on the nightstand");
         System.out.println("a) Move to the hallway");
         System.out.println("b) Pick up the remote");
@@ -123,6 +139,7 @@ public class Main {
         else if(action.equals("b")){
             inventory.add(remote);
         }
+        bedRoom.enterCount();
     }
     public boolean checkAdjacent(int currentRoomId, int nextRoomId){
         if (currentRoomId == 1){
@@ -209,7 +226,22 @@ public class Main {
         else if(waxAcction.equals("d")){
             System.out.println("You put the wax in your pocket");
             inventory.add(waxBall);
+            waxBall.pickUp();
         }
     }
-
+    public static void useMicrowave(){
+        System.out.println("The microwave is fully functional");
+        System.out.println("a) Open the microwave");
+        System.out.println("b) Walk away");
+        System.out.print("input: ");
+        String microwaveAcction = inputOpperator.nextLine();
+        if (microwaveAcction.equals("a")){
+            for (int a = 0; a < inventory.size();a++){
+                String object = inventory.get(a).toString();
+                System.out.println(object);
+            }
+        }
+        else if (microwaveAcction.equals("b")){
+        }
+    }
 }

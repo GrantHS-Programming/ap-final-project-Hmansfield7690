@@ -4,4 +4,12 @@ public class MovingObjects {
     public MovingObjects(boolean inPossesion) {
         this.inPossesion = inPossesion;
     }
+
+    public boolean getLocation(){
+        return inPossesion;
+    }
+
+    public void pickUp(){
+        inPossesion = true;
+    }
 }
