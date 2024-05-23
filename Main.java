@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,17 +17,30 @@ public class Main {
     //Stationary Objects
     static DoorLock doorLock = new DoorLock(3,true);
     static Microwave microwave = new Microwave(2,false,true);
-    static Tv tv = new Tv(1,false,0);
+    static Tv tv = new Tv(1,false,1);
     static boolean playing = true;
 
     //Moving Objects
     static MovingObjects remote = new MovingObjects(false);
     static MovingObjects waxBall = new MovingObjects(false);
-
+    static JFrame frame = new JFrame();
     //Player
     public static void main(String[] args) {
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(200,100,1600,1000);
+        Container cont = frame.getContentPane();
+        cont.setLayout(null);
+        JTextField txt = new JTextField();
+        txt.setBounds(400,400,800,500);
+        cont.add(txt);
+        txt.setText("Welcome to the Channel Guide: We have 30 channels to choose from!");
+        cont.add(txt);
         Scanner inputOpperator = new Scanner(System.in);
         while (playing) {
+            while (tv.getIsOn()&& roomId == 1){
+                frame.setVisible(true);
+            }
             System.out.println("You are currently in the " + getRoomName(roomId));
             if (roomId == 1) {
                 livingRoomAction();
@@ -39,6 +54,7 @@ public class Main {
             else if (roomId == 4){
                 bedroomAction();
             }
+
         }
 
 
@@ -60,9 +76,10 @@ public class Main {
             roomId = 3;
         }
         else if (action.equals("c")){
-            if (!remote.getLocation()){
-                System.out.println("You do not have the remote");
-            }
+            //if (!remote.getLocation()){
+                //System.out.println("You do not have the remote");
+            //}
+            useTv();
         }
         else if (action.equals("q")){
             playing = false;
@@ -242,6 +259,15 @@ public class Main {
             }
         }
         else if (microwaveAcction.equals("b")){
+        }
+    }
+    public static void useTv(){
+        System.out.println("a) turn on the tv");
+        System.out.println("b) walk away");
+        System.out.print("input: ");
+        String channelInput = inputOpperator.nextLine();
+        if (channelInput.equals("a")){
+            tv.turnOn();
         }
     }
 }

@@ -6,4 +6,14 @@ public class Tv extends StationaryObjects {
         this.isOn = isOn;
         this.channel = channel;
     }
+    public boolean getIsOn(){
+        return isOn;
+    }
+    public int getChannel(){
+        return channel;
+    }
+
+    public void turnOn(){
+        isOn = true;
+    }
 }
