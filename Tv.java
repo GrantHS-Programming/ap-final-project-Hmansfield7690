@@ -14,6 +14,7 @@ public class Tv extends StationaryObjects {
     }
 
     public void turnOn(){
+
         isOn = true;
     }
 }

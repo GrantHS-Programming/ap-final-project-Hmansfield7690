@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
-    static Scanner inputOpperator = new Scanner(System.in);
+public class Main implements ActionListener {
+    static Scanner inputOperator = new Scanner(System.in);
     static ArrayList<MovingObjects> inventory = new ArrayList<MovingObjects>();
     public static int roomId = 1;
 
@@ -25,22 +27,9 @@ public class Main {
     static MovingObjects waxBall = new MovingObjects(false);
     static JFrame frame = new JFrame();
     //Player
-    public static void main(String[] args) {
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(200,100,1600,1000);
-        Container cont = frame.getContentPane();
-        cont.setLayout(null);
-        JTextField txt = new JTextField();
-        txt.setBounds(400,400,800,500);
-        cont.add(txt);
-        txt.setText("Welcome to the Channel Guide: We have 30 channels to choose from!");
-        cont.add(txt);
-        Scanner inputOpperator = new Scanner(System.in);
+    public static void main(String[] args) {
         while (playing) {
-            while (tv.getIsOn()&& roomId == 1){
-                frame.setVisible(true);
-            }
             System.out.println("You are currently in the " + getRoomName(roomId));
             if (roomId == 1) {
                 livingRoomAction();
@@ -59,6 +48,40 @@ public class Main {
 
 
     }
+    private void tvFunction(){
+        JFrame window = new JFrame("TV");
+        JButton resetButton = new JButton("Channel Guide");
+        JButton [][] board = new JButton[5][6];
+
+        window.setLayout(new BorderLayout());
+        window.setSize(800,500);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Container resetContainer = new Container();
+        Container boardContainer = new Container();
+        resetContainer.setLayout(new GridLayout(1,1));
+        boardContainer.setLayout(new GridLayout(6,5));
+        resetButton.addActionListener(this);
+        resetContainer.add(resetButton);
+        int chanNum = 1;
+        for (int row = 0; row < board.length; row++){
+            for (int col = 0; col < board[0].length; col++){
+                board[row][col] = new JButton();
+                board[row][col].addActionListener(this);
+                boardContainer.add(board[row][col]);
+                board[row][col].setVisible(true);
+                board[row][col].setText("Ch: " + String.valueOf(chanNum));
+                chanNum++;
+
+
+            }
+        }
+        window.add(resetContainer,BorderLayout.NORTH);
+        window.add(boardContainer,BorderLayout.CENTER);
+        while (tv.getIsOn()){
+            window.setVisible(true);
+        }
+    }
     public static void livingRoomAction(){
         if (livingRoom.getTimesEntered() < 1) {
             System.out.println("There is a TV in the corner, but it is not turned on and the the remote is nowhere to be found. ");
@@ -68,7 +91,7 @@ public class Main {
         System.out.println("c) Use the TV");
         System.out.println("q) Quit");
         System.out.print("input: ");
-        String action = inputOpperator.nextLine();
+        String action = inputOperator.nextLine();
         if (action.equals("a")){
             roomId = 2;
         }
@@ -94,7 +117,7 @@ public class Main {
         System.out.println("b) Use the microwave");
         System.out.println("q) Quit");
         System.out.print("input: ");
-        String action = inputOpperator.nextLine();
+        String action = inputOperator.nextLine();
         if (action.equals("a")){
             roomId = 1;
         }
@@ -120,7 +143,7 @@ public class Main {
         }
         System.out.println("q) Quit");
         System.out.print("input: ");
-        String action = inputOpperator.nextLine();
+        String action = inputOperator.nextLine();
         if (action.equals("a")){
             roomId = 1;
         }
@@ -149,7 +172,7 @@ public class Main {
         System.out.println("c) Enter a passcode for the safe");
         System.out.println("q) Quit");
         System.out.print("input: ");
-        String action = inputOpperator.nextLine();
+        String action = inputOperator.nextLine();
         if (action.equals("a")){
             roomId = 3;
         }
@@ -228,7 +251,7 @@ public class Main {
         System.out.println("c) Break it open with your hands");
         System.out.println("d) Put it in your pocket");
         System.out.print("input: ");
-        String waxAcction = inputOpperator.nextLine();
+        String waxAcction = inputOperator.nextLine();
         if (waxAcction.equals("a")){
             System.out.println("You drop the wax");
         }
@@ -251,7 +274,7 @@ public class Main {
         System.out.println("a) Open the microwave");
         System.out.println("b) Walk away");
         System.out.print("input: ");
-        String microwaveAcction = inputOpperator.nextLine();
+        String microwaveAcction = inputOperator.nextLine();
         if (microwaveAcction.equals("a")){
             for (int a = 0; a < inventory.size();a++){
                 String object = inventory.get(a).toString();
@@ -265,9 +288,16 @@ public class Main {
         System.out.println("a) turn on the tv");
         System.out.println("b) walk away");
         System.out.print("input: ");
-        String channelInput = inputOpperator.nextLine();
+        String channelInput = inputOperator.nextLine();
         if (channelInput.equals("a")){
             tv.turnOn();
+            tvFunction();
         }
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }
