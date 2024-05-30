@@ -291,7 +291,7 @@ public class Main implements ActionListener {
         String channelInput = inputOperator.nextLine();
         if (channelInput.equals("a")){
             tv.turnOn();
-            tvFunction();
+
         }
     }
 
