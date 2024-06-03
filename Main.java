@@ -29,59 +29,53 @@ public class Main implements ActionListener {
     //Player
 
     public static void main(String[] args) {
-        while (playing) {
-            System.out.println("You are currently in the " + getRoomName(roomId));
-            if (roomId == 1) {
-                livingRoomAction();
-            }
-            else if (roomId == 2) {
-                kitchenAction();
-            }
-            else if (roomId == 3){
-                hallwayAction();
-            }
-            else if (roomId == 4){
-                bedroomAction();
-            }
-
-        }
-
-
+        new Main();
     }
-    private void tvFunction(){
+    public Main (){
         JFrame window = new JFrame("TV");
         JButton resetButton = new JButton("Channel Guide");
         JButton [][] board = new JButton[5][6];
-
         window.setLayout(new BorderLayout());
-        window.setSize(800,500);
+        window.setSize(800, 500);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container resetContainer = new Container();
         Container boardContainer = new Container();
-        resetContainer.setLayout(new GridLayout(1,1));
-        boardContainer.setLayout(new GridLayout(6,5));
+        resetContainer.setLayout(new GridLayout(1, 1));
+        boardContainer.setLayout(new GridLayout(6, 5));
         resetButton.addActionListener(this);
-        resetContainer.add(resetButton);
+        window.add(resetButton);
+        window.add(boardContainer);
+
         int chanNum = 1;
-        for (int row = 0; row < board.length; row++){
-            for (int col = 0; col < board[0].length; col++){
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
                 board[row][col] = new JButton();
                 board[row][col].addActionListener(this);
                 boardContainer.add(board[row][col]);
                 board[row][col].setVisible(true);
-                board[row][col].setText("Ch: " + String.valueOf(chanNum));
+                board[row][col].setText("Ch: " + chanNum);
                 chanNum++;
-
-
             }
         }
-        window.add(resetContainer,BorderLayout.NORTH);
-        window.add(boardContainer,BorderLayout.CENTER);
-        while (tv.getIsOn()){
-            window.setVisible(true);
+        while (playing) {
+            System.out.println("You are currently in the " + getRoomName(roomId));
+            if (roomId == 1) {
+                livingRoomAction();
+            } else if (roomId == 2) {
+                kitchenAction();
+            } else if (roomId == 3) {
+                hallwayAction();
+            } else if (roomId == 4) {
+                bedroomAction();
+            }
+            while (tv.getIsOn()){
+                window.setVisible(true);
+            }
         }
     }
+
+
     public static void livingRoomAction(){
         if (livingRoom.getTimesEntered() < 1) {
             System.out.println("There is a TV in the corner, but it is not turned on and the the remote is nowhere to be found. ");
@@ -291,13 +285,10 @@ public class Main implements ActionListener {
         String channelInput = inputOperator.nextLine();
         if (channelInput.equals("a")){
             tv.turnOn();
-
         }
     }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if ()
     }
 }
