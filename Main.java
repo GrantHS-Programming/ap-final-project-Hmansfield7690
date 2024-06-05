@@ -26,6 +26,11 @@ public class Main implements ActionListener {
     static MovingObjects remote = new MovingObjects(false);
     static MovingObjects waxBall = new MovingObjects(false);
     static JFrame frame = new JFrame();
+    JFrame window = new JFrame("TV");
+    JButton resetButton = new JButton("Channel Guide");
+    JButton [][] board = new JButton[5][6];
+    int [][] channel = new int[5][6];
+    
     //Player
 
     public static void main(String[] args) {
@@ -69,7 +74,7 @@ public class Main implements ActionListener {
             } else if (roomId == 4) {
                 bedroomAction();
             }
-            while (tv.getIsOn()){
+            if (tv.getIsOn()){
                 window.setVisible(true);
             }
         }
@@ -289,6 +294,25 @@ public class Main implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ()
+        System.out.println("hi");
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                if (e.getSource().equals(board[0][0])){
+                    System.out.println("Success");
+                }
+
+                if (e.getSource().equals(board[row][col])) {
+
+                    board[row][col].setText(String.valueOf(channel[row][col]));
+                    board[row][col].setEnabled(false);
+                    if (channel[row][col] == 22) {
+
+                    }
+                    else {
+                        System.out.println("Fail");
+                    }
+                }
+            }
+        }
     }
 }
