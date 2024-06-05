@@ -27,7 +27,7 @@ public class Main implements ActionListener {
     static MovingObjects waxBall = new MovingObjects(false);
     static JFrame frame = new JFrame();
     JFrame window = new JFrame("TV");
-    JButton resetButton = new JButton("Channel Guide");
+    JButton powerButton = new JButton("POWER OFF");
     JButton [][] board = new JButton[5][6];
     int [][] channel = new int[5][6];
     
@@ -37,19 +37,17 @@ public class Main implements ActionListener {
         new Main();
     }
     public Main (){
-        JFrame window = new JFrame("TV");
-        JButton powerButton = new JButton("POWER OFF");
-        JButton [][] board = new JButton[5][6];
         window.setLayout(new BorderLayout());
-        window.setSize(800, 600);
+        window.setSize(800,500);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Container resetContainer = new Container();
+        Container powerContainer = new Container();
         Container boardContainer = new Container();
-        resetContainer.setLayout(new GridLayout(1, 1));
+        powerContainer.setLayout(new GridLayout(1, 1));
         boardContainer.setLayout(new GridLayout(6, 5));
         powerButton.addActionListener(this);
-        window.add(powerButton);
+        powerContainer.add(powerButton);
+        window.add(powerContainer);
         window.add(boardContainer);
         powerButton.setVisible(true);
 
