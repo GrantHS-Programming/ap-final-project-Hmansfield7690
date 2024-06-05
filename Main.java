@@ -38,19 +38,20 @@ public class Main implements ActionListener {
     }
     public Main (){
         JFrame window = new JFrame("TV");
-        JButton resetButton = new JButton("Channel Guide");
+        JButton powerButton = new JButton("POWER OFF");
         JButton [][] board = new JButton[5][6];
         window.setLayout(new BorderLayout());
-        window.setSize(800, 500);
+        window.setSize(800, 600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container resetContainer = new Container();
         Container boardContainer = new Container();
         resetContainer.setLayout(new GridLayout(1, 1));
         boardContainer.setLayout(new GridLayout(6, 5));
-        resetButton.addActionListener(this);
-        window.add(resetButton);
+        powerButton.addActionListener(this);
+        window.add(powerButton);
         window.add(boardContainer);
+        powerButton.setVisible(true);
 
         int chanNum = 1;
         for (int row = 0; row < board.length; row++) {
