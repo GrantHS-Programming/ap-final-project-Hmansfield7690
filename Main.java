@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
 
 public class Main implements ActionListener {
     static Scanner inputOperator = new Scanner(System.in);
@@ -36,9 +37,9 @@ public class Main implements ActionListener {
     public static void main(String[] args) {
         new Main();
     }
-    public Main (){
+    public Main () {
         window.setLayout(new BorderLayout());
-        window.setSize(800,500);
+        window.setSize(800, 500);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container powerContainer = new Container();
@@ -51,6 +52,9 @@ public class Main implements ActionListener {
         window.add(boardContainer);
         powerButton.setVisible(true);
 
+        ImageIcon tvstatic = new ImageIcon("actualstatic.jpeg");
+        ImageIcon code = new ImageIcon("codescreen.png");
+
         int chanNum = 1;
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {
@@ -59,6 +63,7 @@ public class Main implements ActionListener {
                 boardContainer.add(board[row][col]);
                 board[row][col].setVisible(true);
                 board[row][col].setText("Ch: " + chanNum);
+                channel[row][col] = chanNum;
                 chanNum++;
             }
         }
@@ -73,10 +78,20 @@ public class Main implements ActionListener {
             } else if (roomId == 4) {
                 bedroomAction();
             }
-            if (tv.getIsOn()){
+            if (tv.getIsOn()) {
                 window.setVisible(true);
             }
+            if (tv.getChannel() == 1){
+                window.remove(new JLabel(code));
+            }
+            else if (tv.getChannel() == 22) {
+                window.add(new JLabel(code));
+            }
+            else {
+                window.add(new JLabel(tvstatic));
+            }
         }
+
     }
 
 
@@ -293,23 +308,12 @@ public class Main implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("hi");
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {
-                if (e.getSource().equals(board[0][0])){
-                    System.out.println("Success");
-                }
-
                 if (e.getSource().equals(board[row][col])) {
-
                     board[row][col].setText(String.valueOf(channel[row][col]));
                     board[row][col].setEnabled(false);
-                    if (channel[row][col] == 22) {
-
-                    }
-                    else {
-                        System.out.println("Fail");
-                    }
+                    tv.setChannel(channel[row][col]);
                 }
             }
         }

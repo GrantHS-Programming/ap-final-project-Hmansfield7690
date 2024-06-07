@@ -17,4 +17,7 @@ public class Tv extends StationaryObjects {
 
         isOn = true;
     }
+    public void setChannel(int futureChannel){
+        channel = futureChannel;
+    }
 }
