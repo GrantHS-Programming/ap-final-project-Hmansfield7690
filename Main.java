@@ -50,10 +50,9 @@ public class Main implements ActionListener {
         powerContainer.add(powerButton);
         window.add(powerContainer);
         window.add(boardContainer);
+        powerContainer.add(powerButton);
         powerButton.setVisible(true);
 
-        ImageIcon tvstatic = new ImageIcon("actualstatic.jpeg");
-        ImageIcon code = new ImageIcon("codescreen.png");
 
         int chanNum = 1;
         for (int row = 0; row < board.length; row++) {
@@ -67,7 +66,9 @@ public class Main implements ActionListener {
                 chanNum++;
             }
         }
+        System.out.println(playing);
         while (playing) {
+            System.out.println(tv.getChannel());
             System.out.println("You are currently in the " + getRoomName(roomId));
             if (roomId == 1) {
                 livingRoomAction();
@@ -81,20 +82,8 @@ public class Main implements ActionListener {
             if (tv.getIsOn()) {
                 window.setVisible(true);
             }
-            if (tv.getChannel() == 1){
-                window.remove(new JLabel(code));
-            }
-            else if (tv.getChannel() == 22) {
-                window.add(new JLabel(code));
-            }
-            else {
-                window.add(new JLabel(tvstatic));
-            }
         }
-
     }
-
-
     public static void livingRoomAction(){
         if (livingRoom.getTimesEntered() < 1) {
             System.out.println("There is a TV in the corner, but it is not turned on and the the remote is nowhere to be found. ");
@@ -308,12 +297,32 @@ public class Main implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        ImageIcon tvstatic = new ImageIcon("screenblur.jpeg");
+        ImageIcon code = new ImageIcon("codescreen.png");
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {
                 if (e.getSource().equals(board[row][col])) {
                     board[row][col].setText(String.valueOf(channel[row][col]));
                     board[row][col].setEnabled(false);
                     tv.setChannel(channel[row][col]);
+                    if (tv.getChannel() == 22) {
+                        window.add(new JLabel(code));
+                        window.pack();
+                        for (JButton[] jButtons : board) {
+                            for (int c = 0; c < board[0].length; c++) {
+                                jButtons[c].setVisible(false);
+                            }
+                        }
+                    }
+                    else{
+                        window.add(new JLabel(tvstatic));
+                        window.pack();
+                        for (JButton[] jButtons : board) {
+                            for (int c = 0; c < board[0].length; c++) {
+                                jButtons[c].setVisible(false);
+                            }
+                        }
+                    }
                 }
             }
         }
