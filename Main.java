@@ -23,9 +23,11 @@ public class Main implements ActionListener {
     static Tv tv = new Tv(1,false,1);
     static boolean playing = true;
 
+
     //Moving Objects
     static MovingObjects remote = new MovingObjects(false);
     static MovingObjects waxBall = new MovingObjects(false);
+    static MovingObjects key = new MovingObjects(false);
     static JFrame frame = new JFrame();
     JFrame window = new JFrame("TV");
     JButton powerButton = new JButton("POWER OFF");
@@ -50,6 +52,7 @@ public class Main implements ActionListener {
         powerContainer.add(powerButton);
         window.add(powerContainer);
         window.add(boardContainer);
+        powerButton = new JButton();
         powerContainer.add(powerButton);
         powerButton.setVisible(true);
 
@@ -101,9 +104,9 @@ public class Main implements ActionListener {
             roomId = 3;
         }
         else if (action.equals("c")){
-            //if (!remote.getLocation()){
-                //System.out.println("You do not have the remote");
-            //}
+            if (!inventory.contains(remote)){
+                System.out.println("You do not have the remote");
+            }
             useTv();
         }
         else if (action.equals("q")){
@@ -130,7 +133,6 @@ public class Main implements ActionListener {
             playing = false;
         }
         kitchen.enterCount();
-
     }
     public static void hallwayAction(){
         if (hallway.getTimesEntered()< 1) {
@@ -150,6 +152,9 @@ public class Main implements ActionListener {
             roomId = 1;
         }
         else if (action.equals("b")){
+            if (inventory.contains(key)){
+                doorLock.unlock();
+            }
             if (doorLock.getLocked()){
                 System.out.println("The door is locked, you need a key to enter");
                 hallwayAction();
@@ -167,11 +172,14 @@ public class Main implements ActionListener {
         hallway.enterCount();
     }
     public static void bedroomAction(){
-        if (bedRoom.getTimesEntered()<1)
-        System.out.println("there is a tv remote and a combination safe sitting on the nightstand");
+        if (bedRoom.getTimesEntered()<1) {
+            System.out.println("there is a tv remote and a combination safe sitting on the nightstand");
+        }
         System.out.println("a) Move to the hallway");
-        System.out.println("b) Pick up the remote");
-        System.out.println("c) Enter a passcode for the safe");
+        if (!inventory.contains(remote)) {
+            System.out.println("b) Pick up the remote");
+        }
+        System.out.println("c) Open the safe");
         System.out.println("q) Quit");
         System.out.print("input: ");
         String action = inputOperator.nextLine();
@@ -180,6 +188,9 @@ public class Main implements ActionListener {
         }
         else if(action.equals("b")){
             inventory.add(remote);
+        }
+        else if (action.equals("c")){
+            safeAction();
         }
         bedRoom.enterCount();
     }
@@ -273,17 +284,18 @@ public class Main implements ActionListener {
     }
     public static void useMicrowave(){
         System.out.println("The microwave is fully functional");
-        System.out.println("a) Open the microwave");
-        System.out.println("b) Walk away");
+        System.out.println("a) walk away");
+        if (inventory.contains(waxBall)){
+            System.out.println("b) microwave the wax ball");
+        }
         System.out.print("input: ");
         String microwaveAcction = inputOperator.nextLine();
         if (microwaveAcction.equals("a")){
-            for (int a = 0; a < inventory.size();a++){
-                String object = inventory.get(a).toString();
-                System.out.println(object);
-            }
+
         }
-        else if (microwaveAcction.equals("b")){
+        else if (microwaveAcction.equals("b")&& inventory.contains(waxBall)){
+            meltWax();
+            System.out.println("There is a key inside the ball of wax, you melt the wax in the microwave and take the key");
         }
     }
     public static void useTv(){
@@ -292,12 +304,32 @@ public class Main implements ActionListener {
         System.out.print("input: ");
         String channelInput = inputOperator.nextLine();
         if (channelInput.equals("a")){
-            tv.turnOn();
+            if (inventory.contains(remote)){
+                tv.turnOn();
+            }
+            else {
+                System.out.println("You need the remote to turn on the tv");
+            }
+        }
+    }
+    public static void meltWax(){
+        if (inventory.contains(waxBall)){
+            inventory.remove(waxBall);
+            waxBall.drop();
+            inventory.add(key);
+            key.pickUp();
+        }
+    }
+    public static void safeAction(){
+        System.out.print("Enter the 3 digit code: ");
+        String codeAction = inputOperator.nextLine();
+        if (codeAction.equals("277")){
+
         }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        ImageIcon tvstatic = new ImageIcon("screenblur.jpeg");
+        ImageIcon tvstatic = new ImageIcon("actualstatic.jpeg");
         ImageIcon code = new ImageIcon("codescreen.png");
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {

@@ -12,5 +12,8 @@ public class DoorLock extends StationaryObjects {
             return false;
         }
     }
+    public void unlock(){
+        locked = false;
+    }
 
 }

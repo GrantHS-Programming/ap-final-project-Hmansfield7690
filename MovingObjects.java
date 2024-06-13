@@ -12,4 +12,8 @@ public class MovingObjects {
     public void pickUp(){
         inPossesion = true;
     }
+
+    public void drop(){
+        inPossesion = false;
+    }
 }
